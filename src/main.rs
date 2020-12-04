@@ -5,11 +5,13 @@ use crate::sway::{
 use color_eyre::Result;
 use midir::{Ignore, MidiInput, MidiOutput, MidiOutputConnection};
 use std::convert::{TryFrom, TryInto};
+use std::env;
 use std::io::stdin;
 use std::process::exit;
 use strum::IntoEnumIterator;
 use swayipc_async::Connection;
 use tokio::runtime::Runtime;
+use tracing::*;
 
 mod sway;
 
@@ -24,6 +26,10 @@ fn reset_colors(conn_out: &mut MidiOutputConnection) {
 #[tokio::main]
 async fn main() -> Result<()> {
     color_eyre::install()?;
+    if let Err(_) = env::var("RUST_LOG") {
+        env::set_var("RUST_LOG", "INFO");
+    }
+    tracing_subscriber::fmt::init();
 
     // establish a connection to sway over a unix socket
     let mut connection = Connection::new().await?;
@@ -49,7 +55,7 @@ async fn main() -> Result<()> {
     let midi_out_ports = midi_out.ports();
     let out_port = midi_out_ports.get(1).unwrap();
 
-    println!("Opening connections");
+    info!("Opening connections");
 
     let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
 
@@ -63,7 +69,7 @@ async fn main() -> Result<()> {
             "midir-test",
             move |_, message, _| {
                 if message[2] == 127 {
-                    println!("{:?}", message);
+                    debug!("{:?}", message);
                     if let Ok(v) = LaunchpadWorkspaceMapping::try_from(message[1] as i32) {
                         rt.block_on(async {
                             let mut connection = Connection::new().await.unwrap();
@@ -81,16 +87,16 @@ async fn main() -> Result<()> {
         )
         .unwrap();
 
-    println!("Connections open, enter `q` to exit ...");
+    info!("Connections open, enter `q` to exit ...");
 
     loop {
         input.clear();
         stdin().read_line(&mut input)?;
         if input.trim() == "q" {
-            println!("Closing connections");
+            info!("Closing connections");
             conn_in.close();
             //conn_out.close();
-            println!("Connections closed");
+            info!("Connections closed");
             exit(0);
         }
     }

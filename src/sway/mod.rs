@@ -6,10 +6,11 @@ use std::convert::{TryFrom, TryInto};
 use std::fmt::{Display, Formatter};
 use strum::EnumIter;
 use swayipc_async::{Connection, Event, EventType};
+use tracing::*;
 
 pub async fn get_workspaces(connection: &mut Connection) -> Result<()> {
     let workspaces = connection.get_workspaces().await?;
-    println!("{:#?}", workspaces);
+    debug!("{:#?}", workspaces);
 
     for space in workspaces {
         if space.focused {

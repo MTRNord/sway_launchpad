@@ -1,13 +1,30 @@
+use crate::reset_colors;
 use color_eyre::Result;
 use futures_util::stream::StreamExt;
-use std::convert::TryFrom;
+use midir::MidiOutput;
+use std::convert::{TryFrom, TryInto};
 use std::fmt::{Display, Formatter};
 use strum::EnumIter;
 use swayipc_async::{Connection, Event, EventType};
 
 pub async fn get_workspaces(connection: &mut Connection) -> Result<()> {
-    // request and print the i3 version
-    println!("{:#?}", connection.get_workspaces().await?);
+    let workspaces = connection.get_workspaces().await?;
+    println!("{:#?}", workspaces);
+
+    for space in workspaces {
+        if space.focused {
+            let midi_out = MidiOutput::new("My Test Output")?;
+            let midi_out_ports = midi_out.ports();
+            let out_port = midi_out_ports.get(1).unwrap();
+            let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
+            if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(space.num) {
+                reset_colors(&mut conn_out);
+                conn_out
+                    .send(&[144, (workspace as i32).try_into().unwrap(), 28])
+                    .unwrap();
+            }
+        }
+    }
     Ok(())
 }
 
@@ -81,15 +98,24 @@ pub async fn listen_for_workspace_changes() -> Result<()> {
     // subscribe to a workspace events.
     let subs = [EventType::Workspace];
     let mut events = Connection::new().await?.subscribe(&subs).await?;
+    let midi_out = MidiOutput::new("My Test Output")?;
+    let midi_out_ports = midi_out.ports();
+    let out_port = midi_out_ports.get(1).unwrap();
+    let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
     while let Some(event) = events.next().await {
         if let Ok(ref event) = event {
             if let Event::Workspace(ref w) = event {
-                println!("{:?}", w.current);
-                /*
-                TODO make this somehow work but I really dont know how as the midir crate is horrible
-                let workspace = WorkspaceLaunchpadMapping::try_from(w.current.unwrap().num)?;
-                reset_colors(&mut conn_out);
-                conn_out.send(&[144, (workspace as i32).try_into().unwrap(), 28]).unwrap();*/
+                if let Some(v) = &w.current {
+                    if let Some(num) = v.num {
+                        // TODO make ? work
+                        if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(num) {
+                            reset_colors(&mut conn_out);
+                            conn_out
+                                .send(&[144, (workspace as i32).try_into().unwrap(), 28])
+                                .unwrap();
+                        }
+                    }
+                }
             }
         }
         //println!("{:?}", event)

@@ -8,7 +8,7 @@ edition = "2018"
 
 [dependencies]
 midir = "0.7"
-swayipc-async = "2.0.0-alpha"
+swayipc-async = "2.0.0-alpha.1"
 tokio = { version = "0.3.2", features = ["full"] }
 futures-util = "0.3.7"
 color-eyre = "0.5"

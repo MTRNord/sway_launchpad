@@ -49,10 +49,9 @@ async fn main() -> Result<()> {
     let midi_out_ports = midi_out.ports();
     let out_port = midi_out_ports.get(1).unwrap();
 
-    println!("\nOpening connections");
+    println!("Opening connections");
 
     let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
-    reset_colors(&mut conn_out);
 
     // Create the runtime
     let rt = Runtime::new()?;
@@ -62,10 +61,9 @@ async fn main() -> Result<()> {
         .connect(
             in_port,
             "midir-test",
-            move |stamp, message, _| {
-                // The last of the three callback parameters is the object that we pass in as last parameter of `connect`.
-                println!("{}: {:?} (len = {})", stamp, message, message.len());
+            move |_, message, _| {
                 if message[2] == 127 {
+                    println!("{:?}", message);
                     if let Ok(v) = LaunchpadWorkspaceMapping::try_from(message[1] as i32) {
                         rt.block_on(async {
                             let mut connection = Connection::new().await.unwrap();

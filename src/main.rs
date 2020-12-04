@@ -3,7 +3,7 @@ use crate::sway::{
     WorkspaceLaunchpadMapping,
 };
 use color_eyre::Result;
-use midir::{Ignore, MidiInput, MidiOutput, MidiOutputConnection};
+use midir::{Ignore, MidiInput, MidiOutputConnection};
 use std::convert::{TryFrom, TryInto};
 use std::env;
 use std::io::stdin;
@@ -42,7 +42,6 @@ async fn main() -> Result<()> {
 
     let mut midi_in = MidiInput::new("midir reading input")?;
     midi_in.ignore(Ignore::None);
-    let midi_out = MidiOutput::new("My Test Output")?;
 
     let midi_in_ports = midi_in.ports();
     /*for (i, p) in midi_in_ports.iter().enumerate() {
@@ -52,12 +51,7 @@ async fn main() -> Result<()> {
     }*/
     let in_port = midi_in_ports.get(1).unwrap();
 
-    let midi_out_ports = midi_out.ports();
-    let out_port = midi_out_ports.get(1).unwrap();
-
     info!("Opening connections");
-
-    let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
 
     // Create the runtime
     let rt = Runtime::new()?;
@@ -78,8 +72,6 @@ async fn main() -> Result<()> {
                                 .await
                                 .unwrap();
                         });
-                        reset_colors(&mut conn_out);
-                        conn_out.send(&[144, message[1], 28]).unwrap();
                     }
                 }
             },

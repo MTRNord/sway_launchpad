@@ -5,7 +5,7 @@ use midir::MidiOutput;
 use std::convert::{TryFrom, TryInto};
 use std::fmt::{Display, Formatter};
 use strum::EnumIter;
-use swayipc_async::{Connection, Event, EventType};
+use swayipc_async::{Connection, Event, EventType, WorkspaceChange};
 use tracing::*;
 
 pub async fn get_workspaces(connection: &mut Connection) -> Result<()> {
@@ -106,14 +106,16 @@ pub async fn listen_for_workspace_changes() -> Result<()> {
     while let Some(event) = events.next().await {
         if let Ok(ref event) = event {
             if let Event::Workspace(ref w) = event {
-                if let Some(v) = &w.current {
-                    if let Some(num) = v.num {
-                        // TODO make ? work
-                        if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(num) {
-                            reset_colors(&mut conn_out);
-                            conn_out
-                                .send(&[144, (workspace as i32).try_into().unwrap(), 28])
-                                .unwrap();
+                if w.change == WorkspaceChange::Focus {
+                    if let Some(v) = &w.current {
+                        if let Some(num) = v.num {
+                            // TODO make ? work
+                            if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(num) {
+                                reset_colors(&mut conn_out);
+                                conn_out
+                                    .send(&[144, (workspace as i32).try_into().unwrap(), 28])
+                                    .unwrap();
+                            }
                         }
                     }
                 }

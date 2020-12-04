@@ -42,7 +42,6 @@ impl Display for LaunchpadWorkspaceMapping {
             Self::Steam => write!(f, "11:\u{f1b6}"),
             Self::Games => write!(f, "12:\u{f11b}"),
             Self::Youtube => write!(f, "13:\u{f167}"),
-            _ => Ok(()),
         }
     }
 }
@@ -97,7 +96,11 @@ async fn listen_for_workspace_changes() -> Result<()> {
         if let Ok(ref event) = event {
             if let Event::Workspace(ref w) = event {
                 println!("{:?}", w.current);
-                // TODO change light
+                /*
+                TODO make this somehow work but I really dont know how as the midir crate is horrible
+                let workspace = WorkspaceLaunchpadMapping::try_from(w.current.unwrap().num)?;
+                reset_colors(&mut conn_out);
+                conn_out.send(&[144, (workspace as i32).try_into().unwrap(), 28]).unwrap();*/
             }
         }
         //println!("{:?}", event)
@@ -115,7 +118,7 @@ async fn main() -> Result<()> {
 
     get_workspaces(&mut connection).await?;
     tokio::spawn(async {
-        listen_for_workspace_changes().await;
+        listen_for_workspace_changes().await.unwrap();
     });
     let mut input = String::new();
 

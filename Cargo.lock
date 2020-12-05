@@ -491,6 +491,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "lsc_example_plugin"
+version = "0.1.0"
+dependencies = [
+ "color-eyre",
+ "futures-util",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "matchers"
 version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

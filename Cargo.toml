@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "launchpad_sway_controler",
+    "lsc_example_plugin"
 ]
 
 [profile.dev.package.backtrace]

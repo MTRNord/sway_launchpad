@@ -25,7 +25,7 @@ pub enum LaunchpadMapping {
     Steam = 115,
     Games = 114,
     Youtube = 113,
-    Test = 112,
+    Test = 0,
 }
 
 impl Into<PluginActions<'_>> for LaunchpadMapping {
@@ -55,13 +55,14 @@ impl TryFrom<i32> for LaunchpadMapping {
             115 => Ok(LaunchpadMapping::Steam),
             114 => Ok(LaunchpadMapping::Games),
             113 => Ok(LaunchpadMapping::Youtube),
-            112 => Ok(LaunchpadMapping::Test),
+            0 => Ok(LaunchpadMapping::Test),
             _ => Err(()),
         }
     }
 }
 
 fn reset_colors(conn_out: &mut MidiOutputConnection) {
+    conn_out.send(&[176, 0, 0]).unwrap();
     for value in LaunchpadMapping::iter() {
         conn_out
             .send(&[144, (value as i32).try_into().unwrap(), 15])

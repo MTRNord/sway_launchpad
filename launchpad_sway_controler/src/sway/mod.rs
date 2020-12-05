@@ -37,6 +37,7 @@ pub enum WorkspaceLaunchpadMapping {
     Steam = 115,
     Games = 114,
     Youtube = 113,
+    Spotify = 112,
 }
 
 impl TryFrom<i32> for WorkspaceLaunchpadMapping {
@@ -51,6 +52,7 @@ impl TryFrom<i32> for WorkspaceLaunchpadMapping {
             11 => Ok(WorkspaceLaunchpadMapping::Steam),
             12 => Ok(WorkspaceLaunchpadMapping::Games),
             13 => Ok(WorkspaceLaunchpadMapping::Youtube),
+            42 => Ok(WorkspaceLaunchpadMapping::Spotify),
             _ => Err(()),
         }
     }
@@ -71,8 +73,8 @@ pub async fn listen_for_workspace_changes() -> Result<()> {
                     if let Some(v) = &w.current {
                         if let Some(num) = v.num {
                             // TODO make ? work
+                            reset_colors(&mut conn_out);
                             if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(num) {
-                                reset_colors(&mut conn_out);
                                 conn_out
                                     .send(&[144, (workspace as i32).try_into().unwrap(), 28])
                                     .unwrap();

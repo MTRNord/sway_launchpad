@@ -25,6 +25,7 @@ pub enum LaunchpadMapping {
     Steam = 115,
     Games = 114,
     Youtube = 113,
+    Spotify = 112,
     Test = 0,
 }
 
@@ -38,6 +39,7 @@ impl Into<PluginActions<'_>> for LaunchpadMapping {
             LaunchpadMapping::Steam => PluginActions::SwayWorkspace("11:\u{f1b6}"),
             LaunchpadMapping::Games => PluginActions::SwayWorkspace("12:\u{f11b}"),
             LaunchpadMapping::Youtube => PluginActions::SwayWorkspace("13:\u{f167}"),
+            LaunchpadMapping::Spotify => PluginActions::SwayWorkspace("42:\u{f001}"),
             LaunchpadMapping::Test => PluginActions::ExamplePlugin,
         }
     }
@@ -55,6 +57,7 @@ impl TryFrom<i32> for LaunchpadMapping {
             115 => Ok(LaunchpadMapping::Steam),
             114 => Ok(LaunchpadMapping::Games),
             113 => Ok(LaunchpadMapping::Youtube),
+            112 => Ok(LaunchpadMapping::Spotify),
             0 => Ok(LaunchpadMapping::Test),
             _ => Err(()),
         }

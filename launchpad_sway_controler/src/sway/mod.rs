@@ -35,6 +35,7 @@ pub enum LaunchpadWorkspaceMapping {
     Firefox,
     Chats,
     Email,
+    Coding,
     Steam,
     Games,
     Youtube,
@@ -46,6 +47,7 @@ impl Display for LaunchpadWorkspaceMapping {
             Self::Firefox => write!(f, "1:\u{e007}"),
             Self::Chats => write!(f, "2:\u{f086}"),
             Self::Email => write!(f, "3:\u{f0e0}"),
+            Self::Coding => write!(f, "5:\u{f1c9}"),
             Self::Steam => write!(f, "11:\u{f1b6}"),
             Self::Games => write!(f, "12:\u{f11b}"),
             Self::Youtube => write!(f, "13:\u{f167}"),
@@ -61,9 +63,10 @@ impl TryFrom<i32> for LaunchpadWorkspaceMapping {
             119 => Ok(LaunchpadWorkspaceMapping::Firefox),
             118 => Ok(LaunchpadWorkspaceMapping::Chats),
             117 => Ok(LaunchpadWorkspaceMapping::Email),
-            116 => Ok(LaunchpadWorkspaceMapping::Steam),
-            115 => Ok(LaunchpadWorkspaceMapping::Games),
-            114 => Ok(LaunchpadWorkspaceMapping::Youtube),
+            116 => Ok(LaunchpadWorkspaceMapping::Coding),
+            115 => Ok(LaunchpadWorkspaceMapping::Steam),
+            114 => Ok(LaunchpadWorkspaceMapping::Games),
+            113 => Ok(LaunchpadWorkspaceMapping::Youtube),
             _ => Err(()),
         }
     }
@@ -74,9 +77,10 @@ pub enum WorkspaceLaunchpadMapping {
     Firefox = 119,
     Chats = 118,
     Email = 117,
-    Steam = 116,
-    Games = 115,
-    Youtube = 114,
+    Coding = 116,
+    Steam = 115,
+    Games = 114,
+    Youtube = 113,
 }
 
 impl TryFrom<i32> for WorkspaceLaunchpadMapping {
@@ -87,6 +91,7 @@ impl TryFrom<i32> for WorkspaceLaunchpadMapping {
             1 => Ok(WorkspaceLaunchpadMapping::Firefox),
             2 => Ok(WorkspaceLaunchpadMapping::Chats),
             3 => Ok(WorkspaceLaunchpadMapping::Email),
+            5 => Ok(WorkspaceLaunchpadMapping::Coding),
             11 => Ok(WorkspaceLaunchpadMapping::Steam),
             12 => Ok(WorkspaceLaunchpadMapping::Games),
             13 => Ok(WorkspaceLaunchpadMapping::Youtube),

@@ -1,7 +1,5 @@
 use crate::plugin_actions::PluginActions;
-use crate::utils::globals::PRESELECTED_LAYER_NUMBER;
 use std::convert::TryFrom;
-use std::sync::atomic::Ordering;
 use strum::EnumIter;
 
 // TODO make array for layers
@@ -19,9 +17,6 @@ pub enum LaunchpadMapping {
     Spotify = 112,
     Test = 0,
     FirefoxWebdriver = 1,
-    IncreaseLayer = 8,
-    DecreaseLayer = 24,
-    SelectLayer = 40,
 }
 
 impl Into<PluginActions<'_>> for LaunchpadMapping {
@@ -38,19 +33,6 @@ impl Into<PluginActions<'_>> for LaunchpadMapping {
             LaunchpadMapping::Spotify => PluginActions::SwayWorkspace("42:\u{f001}"),
             LaunchpadMapping::Test => PluginActions::ExamplePlugin,
             LaunchpadMapping::FirefoxWebdriver => PluginActions::SelectMatrixRoomByID(""),
-            LaunchpadMapping::IncreaseLayer => {
-                if PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) < 9 {
-                    PRESELECTED_LAYER_NUMBER.fetch_add(1, Ordering::SeqCst);
-                }
-                PluginActions::ShowNumber(PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) as usize)
-            }
-            LaunchpadMapping::DecreaseLayer => {
-                if PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) > 0 {
-                    PRESELECTED_LAYER_NUMBER.fetch_sub(1, Ordering::SeqCst);
-                }
-                PluginActions::ShowNumber(PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) as usize)
-            }
-            LaunchpadMapping::SelectLayer => PluginActions::SelectLayer,
         }
     }
 }
@@ -71,9 +53,6 @@ impl TryFrom<i32> for LaunchpadMapping {
             112 => Ok(LaunchpadMapping::Spotify),
             0 => Ok(LaunchpadMapping::Test),
             1 => Ok(LaunchpadMapping::FirefoxWebdriver),
-            8 => Ok(LaunchpadMapping::IncreaseLayer),
-            24 => Ok(LaunchpadMapping::DecreaseLayer),
-            40 => Ok(LaunchpadMapping::SelectLayer),
             _ => Err(()),
         }
     }

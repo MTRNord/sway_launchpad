@@ -1,7 +1,7 @@
 use crate::mappings::LaunchpadMapping;
 use crate::plugin_actions::PluginActions;
 use crate::sway::{get_workspaces, listen_for_workspace_changes};
-use crate::utils::globals::CURRENT_WORKSPACE;
+use crate::utils::globals::{CURRENT_WORKSPACE, PRESELECTED_LAYER_NUMBER};
 use color_eyre::Result;
 use midir::{Ignore, MidiInput, MidiOutputConnection};
 use std::convert::{TryFrom, TryInto};
@@ -26,6 +26,9 @@ fn reset_colors(conn_out: &mut MidiOutputConnection) {
             .send(&[144, (value as i32).try_into().unwrap(), 15])
             .unwrap();
     }
+    conn_out.send(&[144, 24, 15]).unwrap();
+    conn_out.send(&[144, 8, 15]).unwrap();
+    conn_out.send(&[144, 40, 15]).unwrap();
     if let Ok(workspace) =
         sway::WorkspaceLaunchpadMapping::try_from(CURRENT_WORKSPACE.load(Ordering::SeqCst) as i32)
     {
@@ -61,9 +64,6 @@ async fn main() -> Result<()> {
 
     info!("Opening connections");
 
-    // Create the runtime
-    let mut rt = Runtime::new()?;
-
     // One could get the log back here out of the error
     let conn_in = midi_in
         .connect(
@@ -72,12 +72,36 @@ async fn main() -> Result<()> {
             move |_, message, _| {
                 if message[2] == 127 {
                     debug!("{:?}", message);
+                    if (message[1] as i32) == 8 {
+                        if PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) < 9 {
+                            PRESELECTED_LAYER_NUMBER.fetch_add(1, Ordering::SeqCst);
+                        }
+
+                        run_action(
+                            Runtime::new().unwrap(),
+                            PluginActions::ShowNumber(
+                                PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) as usize,
+                            ),
+                        );
+                    }
+                    if (message[1] as i32) == 24 {
+                        if PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) > 0 {
+                            PRESELECTED_LAYER_NUMBER.fetch_sub(1, Ordering::SeqCst);
+                        }
+
+                        run_action(
+                            Runtime::new().unwrap(),
+                            PluginActions::ShowNumber(
+                                PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) as usize,
+                            ),
+                        );
+                    }
+                    if (message[1] as i32) == 40 {
+                        run_action(Runtime::new().unwrap(), PluginActions::SelectLayer);
+                    }
+
                     if let Ok(v) = LaunchpadMapping::try_from(message[1] as i32) {
-                        rt.block_on(async {
-                            if let Err(e) = Into::<PluginActions>::into(v).run().await {
-                                error!("Error while executing action: {}", e);
-                            }
-                        });
+                        run_action(Runtime::new().unwrap(), v.into());
                     }
                 }
             },
@@ -98,4 +122,12 @@ async fn main() -> Result<()> {
             exit(0);
         }
     }
+}
+
+fn run_action(mut rt: Runtime, action: PluginActions) {
+    rt.block_on(async {
+        if let Err(e) = action.run().await {
+            error!("Error while executing action: {}", e);
+        }
+    });
 }

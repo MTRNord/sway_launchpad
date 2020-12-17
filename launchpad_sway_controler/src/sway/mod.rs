@@ -1,8 +1,10 @@
 use crate::reset_colors;
+use crate::utils::globals::{CURRENT_WORKSPACE, SHOWING_NUMBER};
 use color_eyre::Result;
 use futures_util::stream::StreamExt;
 use midir::MidiOutput;
-use std::convert::{TryFrom, TryInto};
+use std::convert::TryFrom;
+use std::sync::atomic::Ordering;
 use swayipc_async::{Connection, Event, EventType, WorkspaceChange};
 use tracing::*;
 
@@ -16,11 +18,9 @@ pub async fn get_workspaces(connection: &mut Connection) -> Result<()> {
             let midi_out_ports = midi_out.ports();
             let out_port = midi_out_ports.get(1).unwrap();
             let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
-            if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(space.num) {
+            CURRENT_WORKSPACE.store(space.num as i64, Ordering::SeqCst);
+            if !SHOWING_NUMBER.load(Ordering::SeqCst) {
                 reset_colors(&mut conn_out);
-                conn_out
-                    .send(&[144, (workspace as i32).try_into().unwrap(), 28])
-                    .unwrap();
             }
         }
     }
@@ -62,7 +62,7 @@ pub async fn listen_for_workspace_changes() -> Result<()> {
     // subscribe to a workspace events.
     let subs = [EventType::Workspace];
     let mut events = Connection::new().await?.subscribe(&subs).await?;
-    let midi_out = MidiOutput::new("My Test Output")?;
+    let midi_out = MidiOutput::new("My Test Output").unwrap();
     let midi_out_ports = midi_out.ports();
     let out_port = midi_out_ports.get(1).unwrap();
     let mut conn_out = midi_out.connect(out_port, "midir-test").unwrap();
@@ -72,12 +72,10 @@ pub async fn listen_for_workspace_changes() -> Result<()> {
                 if w.change == WorkspaceChange::Focus {
                     if let Some(v) = &w.current {
                         if let Some(num) = v.num {
+                            CURRENT_WORKSPACE.store(num as i64, Ordering::SeqCst);
                             // TODO make ? work
-                            reset_colors(&mut conn_out);
-                            if let Ok(workspace) = WorkspaceLaunchpadMapping::try_from(num) {
-                                conn_out
-                                    .send(&[144, (workspace as i32).try_into().unwrap(), 28])
-                                    .unwrap();
+                            if !SHOWING_NUMBER.load(Ordering::SeqCst) {
+                                reset_colors(&mut conn_out);
                             }
                         }
                     }

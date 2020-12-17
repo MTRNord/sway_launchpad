@@ -6,8 +6,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfc5721f-cc06-4df2-8555-3745919e4c56" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Requirements.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/mappings/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/utils/globals.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/utils/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/utils/numbers.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lsc_matrix_presets/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lsc_matrix_presets/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/LaunchpadSwayControler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/LaunchpadSwayControler.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/plugin_actions/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/plugin_actions/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/sway/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/sway/mod.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,7 +28,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="4498" />
+    <option name="totalTimeSeconds" value="13297" />
     <option name="idleThresholdMs" value="60000" />
     <option name="autoCountIdleSeconds" value="0" />
     <option name="stopWhenIdleRatherThanPausing" value="true" />
@@ -42,33 +54,47 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="language.rust.rustfmt" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/launchpad_sway_controler/src/sway" />
+      <recent name="$PROJECT_DIR$/launchpad_sway_controler/src/utils" />
+    </key>
+  </component>
   <component name="RunManager" selected="Cargo.Run">
     <configuration name="Run lsc_example_plugin" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
-      <option name="channel" value="DEFAULT" />
       <option name="command" value="run --package lsc_example_plugin --bin lsc_example_plugin" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/lsc_example_plugin" />
+      <option name="channel" value="DEFAULT" />
       <option name="allFeatures" value="false" />
       <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$/lsc_example_plugin" />
       <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
       <method v="2">
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
-      <option name="channel" value="DEFAULT" />
       <option name="command" value="run -p launchpad_sway_controler --release" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="channel" value="DEFAULT" />
       <option name="allFeatures" value="false" />
       <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
-      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
       <method v="2">
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
@@ -99,7 +125,17 @@
       <updated>1607182424184</updated>
       <workItem from="1607182426972" duration="523000" />
       <workItem from="1607182962786" duration="7425000" />
-      <workItem from="1607203029545" duration="2954000" />
+      <workItem from="1607203029545" duration="5407000" />
+      <workItem from="1607288434655" duration="1399000" />
+      <workItem from="1607705539184" duration="14000" />
+      <workItem from="1607710292802" duration="1356000" />
+      <workItem from="1607711840578" duration="461000" />
+      <workItem from="1607712988488" duration="799000" />
+      <workItem from="1607714679105" duration="1299000" />
+      <workItem from="1607716945713" duration="4563000" />
+      <workItem from="1607936162789" duration="15000" />
+      <workItem from="1608061205255" duration="763000" />
+      <workItem from="1608229569199" duration="7540000" />
     </task>
     <task id="LOCAL-00001" summary="refactor: Use Workspace setup">
       <created>1607182699156</created>
@@ -122,14 +158,22 @@
       <option name="project" value="LOCAL" />
       <updated>1607188704601</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix: reset colors when moving away from known workspaces">
+      <created>1607209625887</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1607209625887</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refactor: Use Workspace setup" />
     <MESSAGE value="feat: Add ability to have multiple actions beyond workspace managment" />
     <MESSAGE value="fix: on reset also disable LEDs again" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: on reset also disable LEDs again" />
+    <MESSAGE value="fix: reset colors when moving away from known workspaces" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: reset colors when moving away from known workspaces" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

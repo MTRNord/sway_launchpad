@@ -7,8 +7,12 @@
   <component name="ChangeListManager">
     <list default="true" id="cfc5721f-cc06-4df2-8555-3745919e4c56" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/mappings/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/mappings/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/plugin_actions/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/plugin_actions/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/sway/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/sway/mod.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="13866" />
+    <option name="totalTimeSeconds" value="17813" />
     <option name="idleThresholdMs" value="60000" />
     <option name="autoCountIdleSeconds" value="0" />
     <option name="stopWhenIdleRatherThanPausing" value="true" />
@@ -34,11 +38,15 @@
     <option name="directoryName" value="ho9ja37x" />
   </component>
   <component name="ProjectId" id="1lFAMettmogwp3he1jrYeQkqtz8" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -123,7 +131,7 @@
       <workItem from="1607716945713" duration="4563000" />
       <workItem from="1607936162789" duration="15000" />
       <workItem from="1608061205255" duration="763000" />
-      <workItem from="1608229569199" duration="8159000" />
+      <workItem from="1608229569199" duration="14716000" />
     </task>
     <task id="LOCAL-00001" summary="refactor: Use Workspace setup">
       <created>1607182699156</created>
@@ -160,16 +168,25 @@
       <option name="project" value="LOCAL" />
       <updated>1608242090649</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="refactor: Move layer action keys out of layer">
+      <created>1608242637813</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1608242637813</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="refactor: Use Workspace setup" />
     <MESSAGE value="feat: Add ability to have multiple actions beyond workspace managment" />
     <MESSAGE value="fix: on reset also disable LEDs again" />
     <MESSAGE value="fix: reset colors when moving away from known workspaces" />
     <MESSAGE value="feat: Prepare Matrix and Layers" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Prepare Matrix and Layers" />
+    <MESSAGE value="refactor: Move layer action keys out of layer" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: Move layer action keys out of layer" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

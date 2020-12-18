@@ -40,6 +40,21 @@ pub enum WorkspaceLaunchpadMapping {
     Spotify = 112,
 }
 
+impl WorkspaceLaunchpadMapping {
+    pub fn get_layer(&self) -> i64 {
+        match self {
+            WorkspaceLaunchpadMapping::Firefox => 0,
+            WorkspaceLaunchpadMapping::Chats => 0,
+            WorkspaceLaunchpadMapping::Email => 0,
+            WorkspaceLaunchpadMapping::Coding => 0,
+            WorkspaceLaunchpadMapping::Steam => 0,
+            WorkspaceLaunchpadMapping::Games => 0,
+            WorkspaceLaunchpadMapping::Youtube => 0,
+            WorkspaceLaunchpadMapping::Spotify => 0,
+        }
+    }
+}
+
 impl TryFrom<i32> for WorkspaceLaunchpadMapping {
     type Error = ();
 

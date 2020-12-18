@@ -1,7 +1,7 @@
-use crate::mappings::LaunchpadMapping;
+use crate::mappings::LAYERS;
 use crate::plugin_actions::PluginActions;
 use crate::sway::{get_workspaces, listen_for_workspace_changes};
-use crate::utils::globals::{CURRENT_WORKSPACE, PRESELECTED_LAYER_NUMBER};
+use crate::utils::globals::{CURRENT_WORKSPACE, LAYER_NUMBER, PRESELECTED_LAYER_NUMBER};
 use color_eyre::Result;
 use midir::{Ignore, MidiInput, MidiOutputConnection};
 use std::convert::{TryFrom, TryInto};
@@ -9,7 +9,6 @@ use std::env;
 use std::io::stdin;
 use std::process::exit;
 use std::sync::atomic::Ordering;
-use strum::IntoEnumIterator;
 use swayipc_async::Connection;
 use tokio::runtime::Runtime;
 use tracing::*;
@@ -21,9 +20,9 @@ mod utils;
 
 fn reset_colors(conn_out: &mut MidiOutputConnection) {
     conn_out.send(&[176, 0, 0]).unwrap();
-    for value in LaunchpadMapping::iter() {
+    for (value, _) in LAYERS[LAYER_NUMBER.load(Ordering::SeqCst) as usize].iter() {
         conn_out
-            .send(&[144, (value as i32).try_into().unwrap(), 15])
+            .send(&[144, (*value as i32).try_into().unwrap(), 15])
             .unwrap();
     }
     conn_out.send(&[144, 24, 15]).unwrap();
@@ -32,9 +31,11 @@ fn reset_colors(conn_out: &mut MidiOutputConnection) {
     if let Ok(workspace) =
         sway::WorkspaceLaunchpadMapping::try_from(CURRENT_WORKSPACE.load(Ordering::SeqCst) as i32)
     {
-        conn_out
-            .send(&[144, (workspace as i32).try_into().unwrap(), 28])
-            .unwrap();
+        if LAYER_NUMBER.load(Ordering::SeqCst) == workspace.get_layer() {
+            conn_out
+                .send(&[144, (workspace as i32).try_into().unwrap(), 28])
+                .unwrap();
+        }
     }
 }
 
@@ -79,7 +80,7 @@ async fn main() -> Result<()> {
 
                         run_action(
                             Runtime::new().unwrap(),
-                            PluginActions::ShowNumber(
+                            &PluginActions::ShowNumber(
                                 PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) as usize,
                             ),
                         );
@@ -91,17 +92,21 @@ async fn main() -> Result<()> {
 
                         run_action(
                             Runtime::new().unwrap(),
-                            PluginActions::ShowNumber(
+                            &PluginActions::ShowNumber(
                                 PRESELECTED_LAYER_NUMBER.load(Ordering::SeqCst) as usize,
                             ),
                         );
                     }
                     if (message[1] as i32) == 40 {
-                        run_action(Runtime::new().unwrap(), PluginActions::SelectLayer);
+                        run_action(Runtime::new().unwrap(), &PluginActions::SelectLayer);
                     }
 
-                    if let Ok(v) = LaunchpadMapping::try_from(message[1] as i32) {
-                        run_action(Runtime::new().unwrap(), v.into());
+                    if let Some(action) = LAYERS[LAYER_NUMBER.load(Ordering::SeqCst) as usize]
+                        .iter()
+                        .find(|(x, _)| *x == message[1] as i64)
+                        .map(|(_, y)| y)
+                    {
+                        run_action(Runtime::new().unwrap(), action);
                     }
                 }
             },
@@ -124,7 +129,7 @@ async fn main() -> Result<()> {
     }
 }
 
-fn run_action(mut rt: Runtime, action: PluginActions) {
+fn run_action(mut rt: Runtime, action: &PluginActions) {
     rt.block_on(async {
         if let Err(e) = action.run().await {
             error!("Error while executing action: {}", e);

@@ -12,11 +12,18 @@ pub static LAYERS: [&'static [(i64, PluginActions)]; 10] = [
         (113, PluginActions::SwayWorkspace("13:\u{f167}")),
         (112, PluginActions::SwayWorkspace("42:\u{f001}")),
     ],
+    &[(0, PluginActions::ExamplePlugin)],
     &[
-        (0, PluginActions::ExamplePlugin),
-        (1, PluginActions::SelectMatrixRoomByID("")),
+        (
+            0,
+            PluginActions::SelectMatrixRoomByID("!IFqsVhqzXtALgXIFig:bpulse.org"),
+        ),
+        (
+            1,
+            PluginActions::SelectMatrixRoomByID("!FJymnHKxIlQeNDkaZW:ubports.chat"),
+        ),
+        (17, PluginActions::RunMatrixPreset("0")),
     ],
-    &[],
     &[],
     &[],
     &[],

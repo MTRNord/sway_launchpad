@@ -6,6 +6,7 @@ use std::{env, fs};
 use tokio::io::{AsyncBufReadExt, BufStream};
 use tokio::net::UnixListener;
 use tracing::*;
+use users::get_current_uid;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -15,8 +16,9 @@ async fn main() -> Result<()> {
         env::set_var("RUST_LOG", "INFO");
     }
     tracing_subscriber::fmt::init();
-
-    let socket_path = Path::new("/run/lsc_example_plugin.sock");
+    let user_id = get_current_uid();
+    let path_string = format!("/run/user/{}/lsc_example_plugin.sock", user_id);
+    let socket_path = Path::new(&path_string);
     if socket_path.exists() {
         fs::remove_file(socket_path)?;
     }

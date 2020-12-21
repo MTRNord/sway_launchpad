@@ -11,6 +11,11 @@ pub static LAYERS: [&'static [(i64, PluginActions)]; 10] = [
         (114, PluginActions::SwayWorkspace("12:\u{f11b}")),
         (113, PluginActions::SwayWorkspace("13:\u{f167}")),
         (112, PluginActions::SwayWorkspace("42:\u{f001}")),
+        (102, PluginActions::MumbleToggleMute),
+        (103, PluginActions::MumbleToggleDeaf),
+        (109, PluginActions::SpotifyPrevTrack), //TODO investigate why 109-111 do not light up (They are undocumented)
+        (110, PluginActions::SpotifyPause),
+        (111, PluginActions::SpotifyNextTrack),
     ],
     &[(0, PluginActions::ExamplePlugin)],
     &[

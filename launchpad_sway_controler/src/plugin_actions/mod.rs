@@ -2,12 +2,15 @@ use crate::reset_colors;
 use crate::utils::globals::{LAYER_NUMBER, PRESELECTED_LAYER_NUMBER, SHOWING_NUMBER};
 use crate::utils::show_number;
 use color_eyre::Result;
+use dbus::blocking::Connection as DBUSConnection;
 use midir::MidiOutput;
 use notify_rust::{Notification, Timeout};
 use std::sync::atomic::Ordering;
+use std::time::Duration;
 use swayipc_async::Connection;
 use tokio::io::AsyncWriteExt;
 use tokio::net::UnixStream;
+use tracing::*;
 use users::get_current_uid;
 
 pub enum PluginActions<'a> {
@@ -18,6 +21,11 @@ pub enum PluginActions<'a> {
     RunMatrixPreset(&'a str),
     ShowNumber(usize),
     SelectLayer,
+    MumbleToggleMute,
+    MumbleToggleDeaf,
+    SpotifyNextTrack,
+    SpotifyPrevTrack,
+    SpotifyPause,
 }
 
 impl PluginActions<'_> {
@@ -86,6 +94,64 @@ impl PluginActions<'_> {
                 );
                 SHOWING_NUMBER.store(false, Ordering::SeqCst);
                 reset_colors(&mut conn_out);
+            }
+            PluginActions::MumbleToggleMute => {
+                let conn = DBUSConnection::new_session()?;
+                let proxy = conn.with_proxy(
+                    "net.sourceforge.mumble.mumble",
+                    "/",
+                    Duration::from_millis(5000),
+                );
+                let (muted,): (bool,) =
+                    proxy.method_call("net.sourceforge.mumble.Mumble", "isSelfMuted", ())?;
+                notification(format!("Changed muted to: {}", !muted).as_str());
+                let (): () = proxy.method_call(
+                    "net.sourceforge.mumble.Mumble",
+                    "setSelfMuted",
+                    (!muted,),
+                )?;
+            }
+            PluginActions::MumbleToggleDeaf => {
+                let conn = DBUSConnection::new_session()?;
+                let proxy = conn.with_proxy(
+                    "net.sourceforge.mumble.mumble",
+                    "/",
+                    Duration::from_millis(5000),
+                );
+                let (deaf,): (bool,) =
+                    proxy.method_call("net.sourceforge.mumble.Mumble", "isSelfDeaf", ())?;
+                notification(format!("Changed Deaf to: {}", !deaf).as_str());
+                let (): () =
+                    proxy.method_call("net.sourceforge.mumble.Mumble", "setSelfDeaf", (!deaf,))?;
+            }
+            PluginActions::SpotifyNextTrack => {
+                let conn = DBUSConnection::new_session()?;
+                let proxy = conn.with_proxy(
+                    "org.mpris.MediaPlayer2.spotify",
+                    "/org/mpris/MediaPlayer2",
+                    Duration::from_millis(5000),
+                );
+                let (): () = proxy.method_call("org.mpris.MediaPlayer2.Player", "Next", ())?;
+            }
+            PluginActions::SpotifyPrevTrack => {
+                let conn = DBUSConnection::new_session()?;
+                let proxy = conn.with_proxy(
+                    "org.mpris.MediaPlayer2.spotify",
+                    "/org/mpris/MediaPlayer2",
+                    Duration::from_millis(5000),
+                );
+                // We send it twice as it first just goes back to the track start
+                let (): () = proxy.method_call("org.mpris.MediaPlayer2.Player", "Previous", ())?;
+                let (): () = proxy.method_call("org.mpris.MediaPlayer2.Player", "Previous", ())?;
+            }
+            PluginActions::SpotifyPause => {
+                let conn = DBUSConnection::new_session()?;
+                let proxy = conn.with_proxy(
+                    "org.mpris.MediaPlayer2.spotify",
+                    "/org/mpris/MediaPlayer2",
+                    Duration::from_millis(5000),
+                );
+                let (): () = proxy.method_call("org.mpris.MediaPlayer2.Player", "PlayPause", ())?;
             }
         }
         Ok(())

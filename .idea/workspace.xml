@@ -6,17 +6,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfc5721f-cc06-4df2-8555-3745919e4c56" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lsc_matrix_presets/src/config.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/mappings/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/mappings/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/launchpad_sway_controler/src/plugin_actions/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/launchpad_sway_controler/src/plugin_actions/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lsc_example_plugin/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/lsc_example_plugin/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lsc_example_plugin/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/lsc_example_plugin/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lsc_matrix_presets/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/lsc_matrix_presets/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lsc_matrix_presets/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/lsc_matrix_presets/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +18,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="21452" />
+    <option name="totalTimeSeconds" value="23079" />
     <option name="idleThresholdMs" value="60000" />
     <option name="autoCountIdleSeconds" value="0" />
     <option name="stopWhenIdleRatherThanPausing" value="true" />
@@ -137,7 +131,10 @@
       <workItem from="1607716945713" duration="4563000" />
       <workItem from="1607936162789" duration="15000" />
       <workItem from="1608061205255" duration="763000" />
-      <workItem from="1608229569199" duration="21320000" />
+      <workItem from="1608229569199" duration="23592000" />
+      <workItem from="1608549168444" duration="10000" />
+      <workItem from="1608556330627" duration="91000" />
+      <workItem from="1608573275369" duration="1142000" />
     </task>
     <task id="LOCAL-00001" summary="refactor: Use Workspace setup">
       <created>1607182699156</created>
@@ -188,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608250883243</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: Add alphaish matrix integration">
+      <created>1608308389146</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1608308389146</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -200,7 +204,8 @@
     <MESSAGE value="feat: Prepare Matrix and Layers" />
     <MESSAGE value="refactor: Move layer action keys out of layer" />
     <MESSAGE value="feat: Implement layers fully" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Implement layers fully" />
+    <MESSAGE value="feat: Add alphaish matrix integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Add alphaish matrix integration" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

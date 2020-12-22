@@ -1222,6 +1222,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "launchpad_sway_controler_macros"
+version = "0.1.0"
+dependencies = [
+ "nom",
+ "proc-macro2",
+ "quote 1.0.7",
+ "syn 1.0.53",
+]
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

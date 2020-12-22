@@ -2,7 +2,8 @@
 members = [
     "launchpad_sway_controler",
     "lsc_example_plugin",
-    "lsc_matrix_presets"
+    "lsc_matrix_presets",
+    "launchpad_sway_controler_macros"
 ]
 
 [profile.dev.package.backtrace]

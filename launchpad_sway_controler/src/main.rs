@@ -20,20 +20,24 @@ mod utils;
 
 fn reset_colors(conn_out: &mut MidiOutputConnection) {
     conn_out.send(&[176, 0, 0]).unwrap();
-    for (value, _) in LAYERS[LAYER_NUMBER.load(Ordering::SeqCst) as usize].iter() {
+    for (value, color, _) in LAYERS[LAYER_NUMBER.load(Ordering::SeqCst) as usize].iter() {
         conn_out
-            .send(&[144, (*value as i32).try_into().unwrap(), 15])
+            .send(&[
+                144,
+                (*value as i32).try_into().unwrap(),
+                (*color as i32).try_into().unwrap(),
+            ])
             .unwrap();
     }
-    conn_out.send(&[144, 24, 15]).unwrap();
-    conn_out.send(&[144, 8, 15]).unwrap();
-    conn_out.send(&[144, 40, 15]).unwrap();
+    conn_out.send(&[144, 24, 63]).unwrap();
+    conn_out.send(&[144, 8, 63]).unwrap();
+    conn_out.send(&[144, 40, 63]).unwrap();
     if let Ok(workspace) =
         sway::WorkspaceLaunchpadMapping::try_from(CURRENT_WORKSPACE.load(Ordering::SeqCst) as i32)
     {
         if LAYER_NUMBER.load(Ordering::SeqCst) == workspace.get_layer() {
             conn_out
-                .send(&[144, (workspace as i32).try_into().unwrap(), 28])
+                .send(&[144, (workspace as i32).try_into().unwrap(), 60])
                 .unwrap();
         }
     }
@@ -103,8 +107,8 @@ async fn main() -> Result<()> {
 
                     if let Some(action) = LAYERS[LAYER_NUMBER.load(Ordering::SeqCst) as usize]
                         .iter()
-                        .find(|(x, _)| *x == message[1] as i64)
-                        .map(|(_, y)| y)
+                        .find(|(x, _, _)| *x == message[1] as i64)
+                        .map(|(_, _, y)| y)
                     {
                         run_action(Runtime::new().unwrap(), action);
                     }

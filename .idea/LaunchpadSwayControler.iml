@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/launchpad_sway_controler/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lsc_example_plugin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lsc_matrix_presets/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/launchpad_sway_controler_macros/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
